@@ -1,4 +1,9 @@
--- {{{ License
+-- {{{
+-- Credit: This config file is originally made by Adrian C.
+-- I just made some minor modifications
+-- Hairong Zhu <a at hrzhu dot me>
+
+-- License
 --
 -- Awesome configuration, using awesome 3.4.13 on Arch GNU/Linux
 --   * Adrian C. <anrxc@sysphere.org>
@@ -46,16 +51,14 @@ layouts = {
 
 -- {{{ Tags
 tags = {
-  names  = { "term", "emacs", "web", "mail", "im", 6, 7, "rss", "media" },
-  layout = { layouts[2], layouts[1], layouts[1], layouts[4], layouts[1],
-             layouts[6], layouts[6], layouts[5], layouts[6]
-}}
+  names  = { "term", "dev", "dev2", "web", "reading", "im", "mail", "media" },
+  layout = { layouts[1], layouts[1], layouts[1], layouts[6], layouts[6], layouts[1], layouts[6], layouts[1]}}
 
 for s = 1, scount do
   tags[s] = awful.tag(tags.names, s, tags.layout)
   for i, t in ipairs(tags[s]) do
       awful.tag.setproperty(t, "mwfact", i==5 and 0.13  or  0.5)
-      awful.tag.setproperty(t, "hide",  (i==6 or  i==7) and true)
+      awful.tag.setproperty(t, "hide",  (i==6) and true)
   end
 end
 -- }}}
@@ -87,12 +90,12 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 -- }}}
 
 -- {{{ Battery state
-baticon = widget({ type = "imagebox" })
-baticon.image = image(beautiful.widget_bat)
+-- baticon = widget({ type = "imagebox" })
+-- baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
-batwidget = widget({ type = "textbox" })
+-- batwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+-- vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
 -- }}}
 
 -- {{{ Memory usage
@@ -153,16 +156,16 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
 -- }}}
 
 -- {{{ Mail subject
-mailicon = widget({ type = "imagebox" })
-mailicon.image = image(beautiful.widget_mail)
+--mailicon = widget({ type = "imagebox" })
+--mailicon.image = image(beautiful.widget_mail)
 -- Initialize widget
-mailwidget = widget({ type = "textbox" })
+--mailwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(mailwidget, vicious.widgets.mbox, "$1", 181, {home .. "/mail/Inbox", 15})
+--vicious.register(mailwidget, vicious.widgets.mbox, "$1", 181, {home .. "/mail/Inbox", 15})
 -- Register buttons
-mailwidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("urxvt -T Alpine -e alpine.exp") end)
-))
+--mailwidget:buttons(awful.util.table.join(
+--  awful.button({ }, 1, function () exec("urxvt -T Alpine -e alpine.exp") end)
+--))
 -- }}}
 
 -- {{{ Org-mode agenda
@@ -224,7 +227,7 @@ dateicon.image = image(beautiful.widget_date)
 -- Initialize widget
 datewidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(datewidget, vicious.widgets.date, "%R", 61)
+vicious.register(datewidget, vicious.widgets.date, "%a %m/%d/%Y %l:%M%p", 61)
 -- Register buttons
 datewidget:buttons(awful.util.table.join(
   awful.button({ }, 1, function () exec("pylendar.py") end)
@@ -284,7 +287,7 @@ for s = 1, scount do
         separator, upicon,     netwidget, dnicon,
         separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
         separator, membar.widget, memicon,
-        separator, batwidget, baticon,
+        -- separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, ["layout"] = awful.widget.layout.horizontal.rightleft
     }
@@ -314,9 +317,10 @@ clientbuttons = awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- {{{ Applications
     awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
-    awful.key({ modkey }, "r", function () exec("rox", false) end),
+    -- awful.key({ modkey }, "r", function () exec("rox", false) end),
     awful.key({ modkey }, "w", function () exec("firefox") end),
-    awful.key({ altkey }, "F1",  function () exec("urxvt") end),
+    awful.key({ modkey }, 'a', function () exec(string.format("emacs ~/org/%s.org", os.date("%F"))) end),
+    awful.key({ modkey }, "q",  function () exec("xfce4-terminal") end),
     awful.key({ altkey }, "#49", function () scratch.drop("urxvt", "bottom", nil, nil, 0.30) end),
     awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
@@ -339,7 +343,7 @@ globalkeys = awful.util.table.join(
     -- }}}
 
     -- {{{ Prompt menus
-    awful.key({ altkey }, "F2", function ()
+    awful.key({ modkey }, "r", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
             function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
             awful.completion.shell, awful.util.getdir("cache") .. "/history")
@@ -374,9 +378,9 @@ globalkeys = awful.util.table.join(
     -- }}}
 
     -- {{{ Tag browsing
-    awful.key({ altkey }, "n",   awful.tag.viewnext),
-    awful.key({ altkey }, "p",   awful.tag.viewprev),
-    awful.key({ altkey }, "Tab", awful.tag.history.restore),
+    awful.key({ modkey }, "n",   awful.tag.viewnext),
+    awful.key({ modkey }, "p",   awful.tag.viewprev),
+    awful.key({ modkey }, "Tab", awful.tag.history.restore),
     -- }}}
 
     -- {{{ Layout manipulation
@@ -491,7 +495,7 @@ awful.rules.rules = {
       border_color = beautiful.border_normal }
     },
     { rule = { class = "Firefox",  instance = "Navigator" },
-      properties = { tag = tags[scount][3] } },
+      properties = { tag = tags[scount][4] } },
     { rule = { class = "Emacs",    instance = "emacs" },
       properties = { tag = tags[1][2] } },
     { rule = { class = "Emacs",    instance = "_Remember_" },
@@ -562,3 +566,16 @@ for s = 1, scount do screen[s]:add_signal("arrange", function ()
 end
 -- }}}
 -- }}}
+
+-- newtork manager applet
+function run_once(cmd)
+  findme = cmd
+  firstspace = cmd:find(" ")
+  if firstspace then
+    findme = cmd:sub(0, firstspace-1)
+  end
+  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+
+run_once("nm-applet")
+
