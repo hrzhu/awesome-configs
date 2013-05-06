@@ -316,10 +316,11 @@ clientbuttons = awful.util.table.join(
 -- {{{ Global keys
 globalkeys = awful.util.table.join(
     -- {{{ Applications
-    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
+    -- awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     -- awful.key({ modkey }, "r", function () exec("rox", false) end),
     awful.key({ modkey }, "w", function () exec("firefox") end),
     awful.key({ modkey }, "t", function () exec("thunderbird") end),
+    awful.key({ modkey }, "e", function () exec("evince") end),
     awful.key({ modkey }, 'a', function () exec(string.format("emacs ~/org/%s.org", os.date("%F"))) end),
     awful.key({ modkey }, "q",  function () exec("xfce4-terminal") end),
     awful.key({ altkey }, "#49", function () scratch.drop("urxvt", "bottom", nil, nil, 0.30) end),
@@ -499,6 +500,8 @@ awful.rules.rules = {
       properties = { tag = tags[scount][4] } },
     { rule = { class = "Thunderbird" },
       properties = { tag = tags[scount][7] } },
+    { rule = { class = "Evince" },
+      properties = { tag = tags[1][5] } },
     { rule = { class = "Emacs",    instance = "emacs" },
       properties = { tag = tags[1][2] } },
     { rule = { class = "Emacs",    instance = "_Remember_" },
