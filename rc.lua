@@ -52,7 +52,7 @@ layouts = {
 -- {{{ Tags
 tags = {
   names  = { "term", "dev", "dev2", "web", "reading", "im", "mail", "media" },
-  layout = { layouts[1], layouts[1], layouts[1], layouts[6], layouts[6], layouts[1], layouts[6], layouts[1]}}
+  layout = { layouts[1], layouts[1], layouts[1], layouts[6], layouts[6], layouts[1], layouts[6], layouts[6]}}
 
 for s = 1, scount do
   tags[s] = awful.tag(tags.names, s, tags.layout)
