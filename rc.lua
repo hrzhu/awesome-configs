@@ -327,7 +327,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
     awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
-    awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
+    awful.key({ altkey }, "`", function () if boosk then osk(nil, mouse.screen)
         else boosk, osk = pcall(require, "osk") end
     end),
     -- }}}
